@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import com.example.kalkulatorminggu3.databinding.ActivityMainBinding
+import java.lang.NumberFormatException
 import java.lang.StringBuilder
+import java.math.BigDecimal
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var lastOperation: String
     private lateinit var savedSubCalc: String
+    private var yesDecimal : Boolean = false
     private var optDone: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         {
             // if user doesn't input 00 or 0 for mainCalc first digit (to prevent 0011, 01)
             // else do nothing
-            if(!(mainCalc.text == "" && (inputtedValue == "00" || inputtedValue == "0"))) {
+            if(!((mainCalc.text == "" || (subCalc.text != "" && optDone)) && (inputtedValue == "00" || inputtedValue == "0"))) {
 
                 // if no operation has been completed
                 // add user input to mainCalc
@@ -79,18 +82,18 @@ class MainActivity : AppCompatActivity() {
         {
 
             if(!optDone){
-
                 // if user hasn't inputted operation before this and current operation aren't clearing
                 // save mainCalc to variable to used later in calculation
                 //
                 //
-                if(lastOperation == "" && (currentOperation != "C" && currentOperation != "c")){
-                    savedSubCalc = mainCalc.text.toString()
-                    subCalc.text = "${mainCalc.text} $currentOperation"
-                    mainCalc.text = ""
-                    lastOperation = currentOperation
+                if((lastOperation == "") && (currentOperation != "C" && currentOperation != "c")){
+                    if(mainCalc.text != "") {
+                        savedSubCalc = mainCalc.text.toString()
+                        subCalc.text = "${mainCalc.text} $currentOperation"
+                        mainCalc.text = ""
+                        lastOperation = currentOperation
+                    }
                 } else if(currentOperation == "c") {
-
                     // if mainCalc isn't empty, clear it one by one
                     // else clear subCalc if there was any
                     if(mainCalc.text.toString() != "") {
@@ -104,7 +107,7 @@ class MainActivity : AppCompatActivity() {
                     // else if user want to change current operation
                     if(currentOperation == "=") {
                         doingOperations()
-                    }  else if (subCalc.text.toString() == "" && currentOperation != "C"){
+                    }  else if (mainCalc.text.toString() == "" && currentOperation != "C"){
                         lastOperation = currentOperation
                         subCalc.text = "$savedSubCalc $currentOperation"
                     } else if(currentOperation == "C") {
@@ -135,16 +138,32 @@ class MainActivity : AppCompatActivity() {
     fun doingOperations() {
 
         with(binding){
-            when(lastOperation){
-                "+" -> mainCalc.text = (mainCalc.text.toString().toInt() + savedSubCalc.toInt()).toString()
-                "-" -> mainCalc.text = (savedSubCalc.toInt() - mainCalc.text.toString().toInt()).toString()
-                "X" -> mainCalc.text = (mainCalc.text.toString().toInt() * savedSubCalc.toInt()).toString()
-                "/" -> mainCalc.text = (savedSubCalc.toInt() / mainCalc.text.toString().toInt()).toString()
-                "%" -> mainCalc.text = (savedSubCalc.toInt() % mainCalc.text.toString().toInt()).toString()
+            if(!yesDecimal) {
+                try {
+                    when(lastOperation){
+                        "+" -> mainCalc.text = (mainCalc.text.toString().toBigDecimal() + savedSubCalc.toBigDecimal()).toString()
+                        "-" -> mainCalc.text = (savedSubCalc.toBigDecimal() - mainCalc.text.toString().toBigDecimal()).toString()
+                        "*" -> mainCalc.text = (mainCalc.text.toString().toBigDecimal() * savedSubCalc.toBigDecimal()).toString()
+                        "/" -> mainCalc.text = (("$savedSubCalc.0").toDouble() / mainCalc.text.toString().toDouble()).toString()
+                        "%" -> mainCalc.text = (savedSubCalc.toBigDecimal() % mainCalc.text.toString().toBigDecimal()).toString()                    }
+                } catch (e: NumberFormatException) {
+                    mainCalc.text = "Angka terlalu besar"
+                }
+            } else {
+                when(lastOperation){
+                    "+" -> mainCalc.text = (mainCalc.text.toString().toBigDecimal() + savedSubCalc.toBigDecimal()).toString()
+                    "-" -> mainCalc.text = (savedSubCalc.toBigDecimal() - mainCalc.text.toString().toBigDecimal()).toString()
+                    "*" -> mainCalc.text = (mainCalc.text.toString().toBigDecimal() * savedSubCalc.toBigDecimal()).toString()
+                    "/" -> mainCalc.text = (savedSubCalc.toBigDecimal() / mainCalc.text.toString().toBigDecimal()).toString()
+                    "%" -> mainCalc.text = (savedSubCalc.toBigDecimal() % mainCalc.text.toString().toBigDecimal()).toString()
+                }
             }
             subCalc.text = ""
             lastOperation = ""
             optDone = true
+            if(yesDecimal){
+                yesDecimal = false
+            }
         }
     }
 
@@ -154,6 +173,9 @@ class MainActivity : AppCompatActivity() {
             subCalc.text = ""
             mainCalc.text = ""
             lastOperation = ""
+            if(yesDecimal){
+                yesDecimal = false
+            }
         }
     }
 
@@ -169,6 +191,18 @@ class MainActivity : AppCompatActivity() {
             }
             else {
                 clearOperations()
+            }
+        }
+    }
+
+    fun makeDouble(view: View) {
+
+        with(binding){
+            if(!yesDecimal){
+                yesDecimal = true
+                mainCalc.text = "${mainCalc.text}."
+            } else if(yesDecimal && subCalc.text != "") {
+                mainCalc.text = "${mainCalc.text}."
             }
         }
     }

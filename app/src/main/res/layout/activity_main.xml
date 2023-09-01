@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/calculateThingy"
+        android:layout_marginBottom="20dp"
         android:textAlignment="textEnd"
         android:textSize="40dp" />
 
@@ -20,187 +21,174 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/mainCalc"
+        android:layout_marginTop="20dp"
         android:textAlignment="textEnd"
         android:textSize="15dp" />
+
     <LinearLayout
         android:id="@+id/calculateThingy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        >
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="C"
-                android:onClick="inputOperasi"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="%"
-                android:onClick="inputOperasi"
-                />
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/forButtonOperations"
+                android:layout_weight="1"
+                android:onClick="inputOperasi"
+                android:text="C" />
+
+            <Button
+                style="@style/forButtonOperations"
+                android:layout_weight="1"
+                android:onClick="inputOperasi"
+                android:text="%" />
+
+            <Button
+                style="@style/forButtonOperations"
                 android:layout_weight="1"
                 android:onClick="inputOperasi"
                 android:text="c" />
+
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/forButtonOperations"
                 android:layout_weight="1"
-                android:text="/"
-                android:onClick="inputOperasi"/>
+                android:onClick="inputOperasi"
+                android:text="/" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                style="@style/forButton"
+                android:layout_weight="1"
+                android:onClick="inputNilai"
+                android:text="7" />
+
+            <Button
+                style="@style/forButton"
+                android:layout_weight="1"
+                android:onClick="inputNilai"
+                android:text="8" />
+
+            <Button
+                style="@style/forButton"
+                android:layout_weight="1"
+                android:onClick="inputNilai"
+                android:text="9" />
+
+            <Button
+                style="@style/forButtonOperations"
+                android:layout_weight="1"
+                android:onClick="inputOperasi"
+                android:text="*" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                style="@style/forButton"
+                android:layout_weight="1"
+                android:onClick="inputNilai"
+                android:text="4" />
+
+            <Button
+                style="@style/forButton"
+                android:layout_weight="1"
+                android:onClick="inputNilai"
+                android:text="5" />
+
+            <Button
+                style="@style/forButton"
+                android:layout_weight="1"
+                android:onClick="inputNilai"
+                android:text="6" />
+
+            <Button
+                style="@style/forButtonOperations"
+                android:layout_weight="1"
+                android:onClick="inputOperasi"
+                android:text="-" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                style="@style/forButton"
+                android:layout_weight="1"
+                android:onClick="inputNilai"
+                android:text="1" />
+
+            <Button
+                style="@style/forButton"
+                android:layout_weight="1"
+                android:onClick="inputNilai"
+                android:text="2" />
+
+            <Button
+                style="@style/forButton"
+                android:layout_weight="1"
+                android:onClick="inputNilai"
+                android:text="3" />
+
+            <Button
+                style="@style/forButtonOperations"
+                android:layout_weight="1"
+                android:onClick="inputOperasi"
+                android:text="+" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/forButton"
                 android:layout_weight="1"
-                android:text="7"
                 android:onClick="inputNilai"
-                />
+                android:text="00" />
+
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/forButton"
                 android:layout_weight="1"
-                android:text="8"
                 android:onClick="inputNilai"
-                />
+                android:text="0" />
+
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/forButton"
                 android:layout_weight="1"
-                android:text="9"
-                android:onClick="inputNilai"
-                />
+                android:onClick="makeDouble"
+                android:text="." />
+
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/forButtonOperations"
                 android:layout_weight="1"
-                android:text="X"
                 android:onClick="inputOperasi"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="4"
-                android:onClick="inputNilai"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="5"
-                android:onClick="inputNilai"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="6"
-                android:onClick="inputNilai"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="-"
-                android:onClick="inputOperasi"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="1"
-                android:onClick="inputNilai"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="2"
-                android:onClick="inputNilai"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3"
-                android:onClick="inputNilai"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="+"
-                android:onClick="inputOperasi"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="00"
-                android:onClick="inputNilai"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"
-                android:onClick="inputNilai"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="."
-                android:onClick="inputNilai"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="="
-                android:onClick="inputOperasi"
-                />
+                android:text="=" />
         </LinearLayout>
     </LinearLayout>
 
-<!--    <Button-->
-<!--        android:id="@+id/hasil"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:onClick="inputNilai"-->
-<!--        android:text=""-->
-<!--        />-->
 </RelativeLayout>
