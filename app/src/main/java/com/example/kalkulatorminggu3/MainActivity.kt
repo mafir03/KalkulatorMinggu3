@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var lastOperation: String
     private lateinit var savedSubCalc: String
-    private var yesDecimal : Boolean = false
     private var optDone: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                     // if user want to calculate result, call doingOperation
                     // else if user want to change current operation
                     if(currentOperation == "=") {
-                        doingOperations()
+                        if(mainCalc.text != "" && subCalc.text != "") doingOperations()
                     }  else if (mainCalc.text.toString() == "" && currentOperation != "C"){
                         lastOperation = currentOperation
                         subCalc.text = "$savedSubCalc $currentOperation"
@@ -117,14 +116,25 @@ class MainActivity : AppCompatActivity() {
 
             }  else {
 
+                if(currentOperation != "C" && currentOperation != "c" && currentOperation != "=") {
 
-                if(currentOperation != "C" && currentOperation != "c")
-                {
-                    savedSubCalc = mainCalc.text.toString()
-                    subCalc.text = "${mainCalc.text} $currentOperation"
-                    mainCalc.text = ""
-                    lastOperation = currentOperation
+                    if(mainCalc.text != "") {
+                        savedSubCalc = mainCalc.text.toString()
+                        subCalc.text = "${mainCalc.text} $currentOperation"
+                        mainCalc.text = ""
+                    } else {
+                        savedSubCalc = ""
+                        subCalc.text = ""
+                    }
+
+                    if(currentOperation != "=" && optDone) {
+                        lastOperation = currentOperation
+                    } else {
+                        lastOperation = ""
+                    }
+
                     optDone = false
+
                 } else
                 {
                     clearOperations()
@@ -138,48 +148,34 @@ class MainActivity : AppCompatActivity() {
     fun doingOperations() {
 
         with(binding){
-            if(!yesDecimal) {
-                try {
-                    when(lastOperation){
-                        "+" -> mainCalc.text = (mainCalc.text.toString().toBigDecimal() + savedSubCalc.toBigDecimal()).toString()
-                        "-" -> mainCalc.text = (savedSubCalc.toBigDecimal() - mainCalc.text.toString().toBigDecimal()).toString()
-                        "*" -> mainCalc.text = (mainCalc.text.toString().toBigDecimal() * savedSubCalc.toBigDecimal()).toString()
-                        "/" -> mainCalc.text = (("$savedSubCalc.0").toDouble() / mainCalc.text.toString().toDouble()).toString()
-                        "%" -> mainCalc.text = (savedSubCalc.toBigDecimal() % mainCalc.text.toString().toBigDecimal()).toString()                    }
-                } catch (e: NumberFormatException) {
-                    mainCalc.text = "Angka terlalu besar"
-                }
-            } else {
+
+            try {
                 when(lastOperation){
                     "+" -> mainCalc.text = (mainCalc.text.toString().toBigDecimal() + savedSubCalc.toBigDecimal()).toString()
                     "-" -> mainCalc.text = (savedSubCalc.toBigDecimal() - mainCalc.text.toString().toBigDecimal()).toString()
                     "*" -> mainCalc.text = (mainCalc.text.toString().toBigDecimal() * savedSubCalc.toBigDecimal()).toString()
-                    "/" -> mainCalc.text = (savedSubCalc.toBigDecimal() / mainCalc.text.toString().toBigDecimal()).toString()
-                    "%" -> mainCalc.text = (savedSubCalc.toBigDecimal() % mainCalc.text.toString().toBigDecimal()).toString()
-                }
+                    "/" -> mainCalc.text = (("$savedSubCalc.0").toDouble() / mainCalc.text.toString().toDouble()).toString()
+                    "%" -> mainCalc.text = (savedSubCalc.toBigDecimal() % mainCalc.text.toString().toBigDecimal()).toString()                    }
+            } catch (e: NumberFormatException) {
+                mainCalc.text = "Angka terlalu besar"
             }
+
             subCalc.text = ""
             lastOperation = ""
             optDone = true
-            if(yesDecimal){
-                yesDecimal = false
-            }
         }
     }
 
-    fun clearOperations() {
+    private fun clearOperations() {
         with(binding){
             savedSubCalc = ""
             subCalc.text = ""
             mainCalc.text = ""
             lastOperation = ""
-            if(yesDecimal){
-                yesDecimal = false
-            }
         }
     }
 
-    fun clearOperationMini(){
+    private fun clearOperationMini(){
         with(binding){
             if(mainCalc.text.toString().length > 1)
             {
@@ -198,12 +194,7 @@ class MainActivity : AppCompatActivity() {
     fun makeDouble(view: View) {
 
         with(binding){
-            if(!yesDecimal){
-                yesDecimal = true
-                mainCalc.text = "${mainCalc.text}."
-            } else if(yesDecimal && subCalc.text != "") {
-                mainCalc.text = "${mainCalc.text}."
-            }
+            mainCalc.text = "${mainCalc.text}."
         }
     }
 }
