@@ -8,6 +8,7 @@ import com.example.kalkulatorminggu3.databinding.ActivityMainBinding
 import java.lang.NumberFormatException
 import java.lang.StringBuilder
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 class MainActivity : AppCompatActivity() {
 
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     fun inputOperasi(view: View) {
 
-        //
+
         var currentOperation = (view as Button).text.toString()
 
         with(binding)
@@ -154,8 +155,14 @@ class MainActivity : AppCompatActivity() {
                     "+" -> mainCalc.text = (mainCalc.text.toString().toBigDecimal() + savedSubCalc.toBigDecimal()).toString()
                     "-" -> mainCalc.text = (savedSubCalc.toBigDecimal() - mainCalc.text.toString().toBigDecimal()).toString()
                     "*" -> mainCalc.text = (mainCalc.text.toString().toBigDecimal() * savedSubCalc.toBigDecimal()).toString()
-                    "/" -> mainCalc.text = (("$savedSubCalc.0").toDouble() / mainCalc.text.toString().toDouble()).toString()
-                    "%" -> mainCalc.text = (savedSubCalc.toBigDecimal() % mainCalc.text.toString().toBigDecimal()).toString()                    }
+                    "/" -> {
+                        if(!mainCalc.text.toString().contains('.')) mainCalc.text = "${mainCalc.text}.0"
+                        if(!savedSubCalc.contains('.')) savedSubCalc = "${savedSubCalc}.0"
+
+                        mainCalc.text = (savedSubCalc.toDouble() / mainCalc.text.toString().toDouble()).toString()
+                    }
+                    "%" -> mainCalc.text = (savedSubCalc.toBigDecimal() % mainCalc.text.toString().toBigDecimal()).toString()
+                }
             } catch (e: NumberFormatException) {
                 mainCalc.text = "Angka terlalu besar"
             }
